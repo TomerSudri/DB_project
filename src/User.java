@@ -3,6 +3,7 @@ public abstract class User {
 	private String username;
 	private String password;
 
+	private int userId;
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
