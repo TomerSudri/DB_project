@@ -10,6 +10,9 @@ public class Order {
 	private double totalPrice;
 	private LocalDate orderDate;
 
+	private int orderId;
+
+
 	//	public Order(Product[] products, String shippingAddress) {
 	//		this.products = new Product[products.length];
 	//		System.arraycopy(products, 0, this.products, 0, products.length);
@@ -51,4 +54,13 @@ public class Order {
 			totalPrice += product.getTotalPrice();
 		}
 	}
+
+	public int getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+
 }

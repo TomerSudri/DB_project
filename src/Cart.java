@@ -6,7 +6,7 @@ import java.util.Set;
 public class Cart {
 	private Set<Product> products;
 	//private int size;
-
+	private int cartId;
 	public Cart() {
 		this.products = new HashSet<>();
 		//this.products = new Product[10];
@@ -60,4 +60,13 @@ public class Cart {
 	public void clear() {
 		products.clear();
 	}
+
+	public int getCartId() {
+		return cartId;
+	}
+
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
+
 }
