@@ -22,3 +22,30 @@ CREATE TABLE Categories (
     category_name VARCHAR(50) UNIQUE NOT NULL);
 
 
+--create Order Table
+CREATE TABLE Orders (
+    orderId SERIAL PRIMARY KEY,
+    shippingAddress VARCHAR(50) NOT NULL,
+    totalPrice NUMERIC(10,2) NOT NULL,
+    orderDate DATE NOT NULL,
+    BuyerId INT REFERENCES Buyers(BuyerId)
+);
+
+--create Cart Table
+CREATE Table Cart (CartId SERIAL PRIMARY KEY,
+BuyerId INT REFERENCES Buyers(BuyerId));
+
+--create CartProduct Table
+CREATE TABLE CartProduct (
+    CartId INT REFERENCES Cart(CartId),
+    ProductId INT REFERENCES Products(serialNumber),
+    PRIMARY KEY (CartId, ProductId)
+);
+
+--create OrderProduct
+CREATE TABLE OrderProduct (
+    orderId INT REFERENCES Orders(orderId),
+    ProductId INT REFERENCES Products(serialNumber),
+    PRIMARY KEY (orderId, ProductId)
+);
+
