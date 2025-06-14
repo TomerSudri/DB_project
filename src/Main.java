@@ -563,51 +563,452 @@
 //		System.out.print(prompt);
 //		return scanner.nextLine().equalsIgnoreCase("yes");
 //	}
+////}
+//import java.sql.*;
+//import java.util.*;
+//
+//public class Main {
+//	private static ECommerceSystem system = new ECommerceSystem();
+//	private static Scanner scanner = new Scanner(System.in);
+//
+//	public static void main(String[] args) {
+//		try (Connection conn = DBUtil.connect()) {
+//			system.loadBuyersFromDB(conn);
+//			system.loadSellersFromDB(conn);
+//
+//			System.out.print("Are you an admin? (yes/no): ");
+//			String role = scanner.nextLine().trim().toLowerCase();
+//
+//			if (role.equals("yes") || role.equals("y")) {
+//				runAdminMenu(conn);
+//			} else {
+//				runUserMenu(conn);
+//			}
+//
+//		} catch (SQLException e) {
+//			System.out.println("Database connection failed.");
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private static void runAdminMenu(Connection conn) {
+//		int choice;
+//		do {
+//			printAdminMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> system.handleAddSeller(conn, scanner);
+//				case 2 -> system.handleAddBuyer(conn, scanner);
+//				case 3 -> system.handleAddProductToSeller(conn, scanner);
+//				case 4 -> system.handleViewProductsByCategory(conn, scanner);
+//				case 0 -> System.out.println("Exiting admin menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void runUserMenu(Connection conn) {
+//		int choice;
+//		do {
+//			printUserMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> system.handleViewProductsByCategory(conn, scanner);
+//				case 2 -> system.handleAddToCart(conn, scanner);
+//				case 3 -> system.handleViewCart(scanner);
+//				case 4 -> system.handleViewProductDetails(conn, scanner);
+//				case 5 -> system.handleViewCartTotal(scanner);
+//				case 6 -> system.handleCompletePurchase(conn, scanner);
+//				case 7 -> system.handleViewOrderHistory(conn, scanner);
+//				case 0 -> System.out.println("Exiting user menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void printAdminMenu() {
+//		System.out.println("\nAdmin Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - Add Seller");
+//		System.out.println("2 - Add Buyer");
+//		System.out.println("3 - Add Product to Seller");
+//		System.out.println("4 - View Products by Category");
+//		System.out.print("Enter your choice: ");
+//	}
+//
+//	private static void printUserMenu() {
+//		System.out.println("\nUser Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - View Products by Category");
+//		System.out.println("2 - Add Product to Cart");
+//		System.out.println("3 - View Cart");
+//		System.out.println("4 - View Product Details");
+//		System.out.println("5 - View Cart Total Price");
+//		System.out.println("6 - Complete Purchase");
+//		System.out.println("7 - View Order History");
+//		System.out.print("Enter your choice: ");
+//	}
+//}
+//
+//
+//import java.sql.*;
+//import java.util.*;
+//
+//public class Main {
+//	private static ECommerceSystem system = new ECommerceSystem();
+//	private static Admin admin = new Admin(system); // ✅ יצירת Admin
+//	private static Scanner scanner = new Scanner(System.in);
+//
+//	public static void main(String[] args) {
+//		try (Connection conn = DBUtil.connect()) {
+//			System.out.print("Are you an admin? (yes/no): ");
+//			String role = scanner.nextLine().trim().toLowerCase();
+//
+//			if (role.equals("yes") || role.equals("y")) {
+//				runAdminMenu(conn);
+//			} else {
+//				runUserMenu(conn);
+//			}
+//
+//		} catch (SQLException e) {
+//			System.out.println("Database connection failed.");
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private static void runAdminMenu(Connection conn) {
+//		int choice;
+//		do {
+//			printAdminMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> admin.handleAddSeller(conn, scanner);
+//				case 2 -> admin.handleAddBuyer(conn, scanner);
+//				case 3 -> admin.handleAddProductToSeller(conn, scanner);
+//				case 4 -> admin.handleShowProductsByCategory(conn, scanner);
+//				case 5 -> admin.showAllBuyers(conn);
+//				case 6 -> admin.showAllSellers(conn);
+//				case 0 -> System.out.println("Exiting admin menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void runUserMenu(Connection conn) {
+//		int choice;
+//		do {
+//			printUserMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> system.handleShowProductsByCategory(conn, scanner);
+//				case 2 -> system.handleAddToCart(conn, scanner);
+//				case 3 -> system.handleViewCart(scanner);
+//				case 4 -> system.handleViewProductDetails(conn, scanner);
+//				case 5 -> system.handleViewCartTotal(scanner);
+//				case 6 -> system.handleCompletePurchase(conn, scanner);
+//				case 7 -> system.handleViewOrderHistory(conn, scanner);
+//				case 0 -> System.out.println("Exiting user menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void printAdminMenu() {
+//		System.out.println("\nAdmin Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - Add Seller");
+//		System.out.println("2 - Add Buyer");
+//		System.out.println("3 - Add Product to Seller");
+//		System.out.println("4 - View Products by Category");
+//		System.out.println("5 - Show All Buyers");
+//		System.out.println("6 - Show All Sellers");
+//		System.out.print("Enter your choice: ");
+//	}
+//
+//	private static void printUserMenu() {
+//		System.out.println("\nUser Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - View Products by Category");
+//		System.out.println("2 - Add Product to Cart");
+//		System.out.println("3 - View Cart");
+//		System.out.println("4 - View Product Details");
+//		System.out.println("5 - View Cart Total Price");
+//		System.out.println("6 - Complete Purchase");
+//		System.out.println("7 - View Order History");
+//		System.out.print("Enter your choice: ");
+//	}
+//}
+//
+//import java.sql.*;
+//import java.util.*;
+//
+//public class Main {
+//	private static ECommerceSystem system = new ECommerceSystem();
+//	private static Admin admin = new Admin(system);
+//	private static Scanner scanner = new Scanner(System.in);
+//
+//	public static void main(String[] args) {
+//		try (Connection conn = DBUtil.connect()) {
+//			System.out.print("Are you an admin? (yes/no): ");
+//			String role = scanner.nextLine().trim().toLowerCase();
+//
+//			if (role.equals("yes") || role.equals("y")) {
+//				runAdminMenu(conn);
+//			} else {
+//				runUserMenu(conn); // בשלב הבא תוכל לפצל גם לתפריט קונה ומוכר
+//			}
+//		} catch (SQLException e) {
+//			System.out.println("Database connection failed.");
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private static void runAdminMenu(Connection conn) {
+//		int choice;
+//		do {
+//			printAdminMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> admin.handleAddSeller(conn, scanner);
+//				case 2 -> admin.handleAddBuyer(conn, scanner);
+//				case 3 -> admin.handleAddProductToSeller(conn, scanner);
+//				case 4 -> admin.handleShowProductsByCategory(conn, scanner);
+//				case 5 -> admin.showAllBuyers(conn);
+//				case 6 -> admin.showAllSellers(conn);
+//				case 7 -> admin.handleDeleteSeller(conn, scanner);
+//				case 8 -> admin.handleDeleteBuyer(conn, scanner);
+//				case 9 -> admin.handleShowAllProducts(conn);
+//				case 10 -> admin.handleShowAllCategories(conn);
+//				case 11 -> admin.handleAddCategory(conn, scanner);
+//				case 12 -> admin.handleDeleteCategory(conn, scanner);
+//				case 13 -> admin.handleShowAllOrders(conn);
+//				case 14 -> admin.handleIncomeReport(conn);
+//				case 0 -> System.out.println("Exiting admin menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void runUserMenu(Connection conn) {
+//		// נשאיר את זה כמו שהיה (שלב הבא נפרק למוכר/קונה)
+//		int choice;
+//		do {
+//			printUserMenu();
+//			while (!scanner.hasNextInt()) {
+//				System.out.println("Invalid input. Please enter a number.");
+//				scanner.next();
+//			}
+//			choice = scanner.nextInt();
+//			scanner.nextLine();
+//
+//			switch (choice) {
+//				case 1 -> system.handleShowProductsByCategory(conn, scanner);
+//				case 2 -> system.handleAddToCart(conn, scanner, buyer);
+//				case 3 -> system.handleDisplayCart(conn, buyer);
+//				case 4 -> system.handleViewProductDetails(conn, scanner); // תלוי אם צריך buyer
+//				case 5 -> system.handleCartTotal(conn, buyer);
+//				case 6 -> system.handlePurchase(conn, buyer);
+//				case 7 -> system.handleOrderHistory(conn, buyer);
+//				case 0 -> System.out.println("Exiting user menu...");
+//				default -> System.out.println("Invalid choice. Try again.");
+//			}
+//		} while (choice != 0);
+//	}
+//
+//	private static void printAdminMenu() {
+//		System.out.println("\n🛠 Admin Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - Add Seller");
+//		System.out.println("2 - Add Buyer");
+//		System.out.println("3 - Add Product to Seller");
+//		System.out.println("4 - View Products by Category");
+//		System.out.println("5 - Show All Buyers");
+//		System.out.println("6 - Show All Sellers");
+//		System.out.println("7 - Delete Seller by Username");
+//		System.out.println("8 - Delete Buyer by Username");
+//		System.out.println("9 - Show All Products");
+//		System.out.println("10 - Show All Categories");
+//		System.out.println("11 - Add New Category");
+//		System.out.println("12 - Delete Category");
+//		System.out.println("13 - View All Orders");
+//		System.out.println("14 - View Income Report");
+//		System.out.print("Enter your choice: ");
+//	}
+//
+//	private static void printUserMenu() {
+//		System.out.println("\nUser Menu:");
+//		System.out.println("0 - Exit");
+//		System.out.println("1 - View Products by Category");
+//		System.out.println("2 - Add Product to Cart");
+//		System.out.println("3 - View Cart");
+//		System.out.println("4 - View Product Details");
+//		System.out.println("5 - View Cart Total Price");
+//		System.out.println("6 - Complete Purchase");
+//		System.out.println("7 - View Order History");
+//		System.out.print("Enter your choice: ");
+//	}
 //}
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Main {
 	private static ECommerceSystem system = new ECommerceSystem();
+	private static Admin admin = new Admin(system);
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		try (Connection conn = DBUtil.connect()) {
-			system.loadBuyersFromDB(conn);
-			system.loadSellersFromDB(conn);
+			System.out.print("Are you an admin? (yes/no): ");
+			String role = scanner.nextLine().trim().toLowerCase();
 
-			int choice;
-			do {
-				printMenu();
-				while (!scanner.hasNextInt()) {
-					System.out.println("Invalid input. Please enter a number.");
-					scanner.next();
+			if (role.equals("yes") || role.equals("y")) {
+				runAdminMenu(conn);
+			} else {
+				System.out.print("Are you a buyer or seller? ");
+				String type = scanner.nextLine().trim().toLowerCase();
+
+				if (type.equals("buyer")) {
+					Buyer buyer = admin.handleAddBuyer(conn, scanner);
+					runBuyerMenu(conn, buyer);
+
+				} else if (type.equals("seller")) {
+					Seller seller = admin.handleAddSeller(conn, scanner);
+					runSellerMenu(conn, seller);
+
+				} else {
+					System.out.println("Invalid type. Exiting...");
 				}
-				choice = scanner.nextInt();
-				scanner.nextLine();
-
-				switch (choice) {
-					case 1 -> system.handleAddSeller(conn, scanner);
-					case 2 -> system.handleAddBuyer(conn, scanner);
-					case 3 -> system.handleAddProductToSeller(conn, scanner);
-					case 0 -> System.out.println("Exiting...");
-					default -> System.out.println("Invalid choice. Try again.");
-				}
-			} while (choice != 0);
-
+			}
 		} catch (SQLException e) {
 			System.out.println("Database connection failed.");
 			e.printStackTrace();
 		}
 	}
 
-	private static void printMenu() {
-		System.out.println("\nMenu:");
+	private static void runAdminMenu(Connection conn) {
+		int choice;
+		do {
+			printAdminMenu();
+			while (!scanner.hasNextInt()) {
+				System.out.println("Invalid input. Please enter a number.");
+				scanner.next();
+			}
+			choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice) {
+				case 1 -> admin.handleAddSeller(conn, scanner);
+				case 2 -> admin.handleAddBuyer(conn, scanner);
+				case 3 -> admin.handleAddProductToSeller(conn, scanner);
+				case 4 -> admin.handleShowProductsByCategory(conn, scanner);
+				case 5 -> admin.showAllBuyers(conn);
+				case 6 -> admin.showAllSellers(conn);
+				case 7 -> admin.handleDeleteSeller(conn, scanner);
+				case 8 -> admin.handleDeleteBuyer(conn, scanner);
+				case 9 -> admin.handleShowAllProducts(conn);
+				case 10 -> admin.handleShowAllCategories(conn);
+				case 11 -> admin.handleAddCategory(conn, scanner);
+				case 12 -> admin.handleDeleteCategory(conn, scanner);
+				case 13 -> admin.handleShowAllOrders(conn);
+				case 14 -> admin.handleIncomeReport(conn);
+				case 0 -> System.out.println("Exiting admin menu...");
+				default -> System.out.println("Invalid choice. Try again.");
+			}
+		} while (choice != 0);
+	}
+
+	private static void runBuyerMenu(Connection conn, Buyer buyer) {
+		int choice;
+		do {
+			printUserMenu();
+			while (!scanner.hasNextInt()) {
+				System.out.println("Invalid input. Please enter a number.");
+				scanner.next();
+			}
+			choice = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (choice) {
+				case 1 -> system.handleShowProductsByCategory(conn, scanner);
+				case 2 -> system.handleAddToCart(conn, scanner, buyer);
+				case 3 -> system.handleDisplayCart(conn, buyer);
+				case 4 -> system.handleViewProductDetails(conn, scanner);
+				case 5 -> system.handleCartTotal(conn, buyer);
+				case 6 -> system.handlePurchase(conn, buyer);
+				case 7 -> system.handleOrderHistory(conn, buyer);
+				case 0 -> System.out.println("Exiting user menu...");
+				default -> System.out.println("Invalid choice. Try again.");
+			}
+		} while (choice != 0);
+	}
+
+	private static void runSellerMenu(Connection conn, Seller seller) {
+		System.out.println("👨‍💼 Welcome, seller " + seller.getUsername() + "! (custom seller menu coming soon...)\n");
+		// future seller menu actions
+	}
+
+	private static void printAdminMenu() {
+		System.out.println("\n🛠 Admin Menu:");
 		System.out.println("0 - Exit");
 		System.out.println("1 - Add Seller");
 		System.out.println("2 - Add Buyer");
 		System.out.println("3 - Add Product to Seller");
+		System.out.println("4 - View Products by Category");
+		System.out.println("5 - Show All Buyers");
+		System.out.println("6 - Show All Sellers");
+		System.out.println("7 - Delete Seller by Username");
+		System.out.println("8 - Delete Buyer by Username");
+		System.out.println("9 - Show All Products");
+		System.out.println("10 - Show All Categories");
+		System.out.println("11 - Add New Category");
+		System.out.println("12 - Delete Category");
+		System.out.println("13 - View All Orders");
+		System.out.println("14 - View Income Report");
+		System.out.print("Enter your choice: ");
+	}
+
+	private static void printUserMenu() {
+		System.out.println("\nUser Menu:");
+		System.out.println("0 - Exit");
+		System.out.println("1 - View Products by Category");
+		System.out.println("2 - Add Product to Cart");
+		System.out.println("3 - View Cart");
+		System.out.println("4 - View Product Details");
+		System.out.println("5 - View Cart Total Price");
+		System.out.println("6 - Complete Purchase");
+		System.out.println("7 - View Order History");
 		System.out.print("Enter your choice: ");
 	}
 }

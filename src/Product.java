@@ -108,4 +108,14 @@ public class Product {
 		}
 		return totalPrice;
 	}
+	@Override
+	public String toString() {
+		return String.format("🛒 %s | Price: %.2f₪ | Category: %s | Packaging: %s (%.2f₪)",
+				name,
+				price,
+				category,
+				specialPackaging ? "Yes" : "No",
+				packagingCost);
+	}
+
 }

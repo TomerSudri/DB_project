@@ -38,26 +38,46 @@ public class Seller extends User {
 		return productList.toArray(new Product[0]);
 	}
 
-	// הוספת מוצר חדש ל-DB תחת המוכר הנוכחי
-	public void addProduct(Product product, Connection conn) {
-		String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
-				"VALUES (?, ?, ?, ?, ?, ?)";
+//	// הוספת מוצר חדש ל-DB תחת המוכר הנוכחי
+//	public void addProduct(Product product, Connection conn) {
+//		String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
+//				"VALUES (?, ?, ?, ?, ?, ?)";
+//
+//		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+//			stmt.setInt(1, this.getUserId());
+//			stmt.setString(2, product.getName());
+//			stmt.setDouble(3, product.getPrice());
+//			stmt.setString(4, product.getCategory().toString());
+//			stmt.setBoolean(5, product.hasSpecialPackaging());
+//			stmt.setDouble(6, product.getPackagingCost());
+//
+//			stmt.executeUpdate();
+//			System.out.println("✅ Product added successfully to the database.");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			System.out.println("❌ Failed to add product.");
+//		}
+//	}
+// הוספת מוצר חדש ל-DB תחת המוכר הנוכחי
+public boolean addProduct(Product product, Connection conn) {
+	String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
+			"VALUES (?, ?, ?, ?, ?, ?)";
 
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, this.getUserId());
-			stmt.setString(2, product.getName());
-			stmt.setDouble(3, product.getPrice());
-			stmt.setString(4, product.getCategory().toString());
-			stmt.setBoolean(5, product.hasSpecialPackaging());
-			stmt.setDouble(6, product.getPackagingCost());
+	try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+		stmt.setInt(1, this.getUserId());
+		stmt.setString(2, product.getName());
+		stmt.setDouble(3, product.getPrice());
+		stmt.setString(4, product.getCategory().toString());
+		stmt.setBoolean(5, product.hasSpecialPackaging());
+		stmt.setDouble(6, product.getPackagingCost());
 
-			stmt.executeUpdate();
-			System.out.println("✅ Product added successfully to the database.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("❌ Failed to add product.");
-		}
+		stmt.executeUpdate();
+		return true; // ✅ הצלחה
+	} catch (SQLException e) {
+		System.out.println("❌ Failed to add product: " + e.getMessage());
+		return false; // ❌ כשלון
 	}
+}
 
 	// שליפת מספר המוצרים של המוכר מה-DB
 	public int getProductCount(Connection conn) {
@@ -73,4 +93,13 @@ public class Seller extends User {
 		}
 		return 0;
 	}
+
+	@Override
+	public String toString() {
+		return "Seller{" +
+				"userId=" + getUserId() +
+				", username='" + getUsername() + '\'' +
+				'}';
+	}
+
 }
