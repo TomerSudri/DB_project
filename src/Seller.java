@@ -1,3 +1,4 @@
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -5,14 +6,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Seller class represents a user who can sell products.
+ * Extends the User class and provides database operations related to product management.
+ */
 public class Seller extends User {
 
-	// בנאי עם userId שנשמר באובייקט
+	/**
+	 * Constructor for a seller with a known user ID.
+	 *
+	 * @param username seller's username
+	 * @param password seller's password
+	 * @param id unique user ID from the database
+	 */
 	public Seller(String username, String password, int id) {
 		super(username, password, id);
 	}
 
-	// שליפת כל המוצרים של המוכר מה-DB
+	/**
+	 * Retrieves all products listed by the seller from the database.
+	 *
+	 * @param conn active SQL connection
+	 * @return array of Product objects associated with this seller
+	 */
 	public Product[] getProducts(Connection conn) {
 		List<Product> productList = new ArrayList<>();
 		String sql = "SELECT * FROM Products WHERE SellerId = ?";
@@ -38,48 +54,39 @@ public class Seller extends User {
 		return productList.toArray(new Product[0]);
 	}
 
-//	// הוספת מוצר חדש ל-DB תחת המוכר הנוכחי
-//	public void addProduct(Product product, Connection conn) {
-//		String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
-//				"VALUES (?, ?, ?, ?, ?, ?)";
-//
-//		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-//			stmt.setInt(1, this.getUserId());
-//			stmt.setString(2, product.getName());
-//			stmt.setDouble(3, product.getPrice());
-//			stmt.setString(4, product.getCategory().toString());
-//			stmt.setBoolean(5, product.hasSpecialPackaging());
-//			stmt.setDouble(6, product.getPackagingCost());
-//
-//			stmt.executeUpdate();
-//			System.out.println("✅ Product added successfully to the database.");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("❌ Failed to add product.");
-//		}
-//	}
-// הוספת מוצר חדש ל-DB תחת המוכר הנוכחי
-public boolean addProduct(Product product, Connection conn) {
-	String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
-			"VALUES (?, ?, ?, ?, ?, ?)";
+	/**
+	 * Adds a new product to the database under this seller's ID.
+	 *
+	 * @param product the product to add
+	 * @param conn active SQL connection
+	 * @return true if the product was successfully added; false otherwise
+	 */
+	public boolean addProduct(Product product, Connection conn) {
+		String sql = "INSERT INTO Products (SellerId, name, price, category, specialPackaging, packagingCost) " +
+				"VALUES (?, ?, ?, ?, ?, ?)";
 
-	try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-		stmt.setInt(1, this.getUserId());
-		stmt.setString(2, product.getName());
-		stmt.setDouble(3, product.getPrice());
-		stmt.setString(4, product.getCategory().toString());
-		stmt.setBoolean(5, product.hasSpecialPackaging());
-		stmt.setDouble(6, product.getPackagingCost());
+		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setInt(1, this.getUserId());
+			stmt.setString(2, product.getName());
+			stmt.setDouble(3, product.getPrice());
+			stmt.setString(4, product.getCategory().toString());
+			stmt.setBoolean(5, product.hasSpecialPackaging());
+			stmt.setDouble(6, product.getPackagingCost());
 
-		stmt.executeUpdate();
-		return true; // ✅ הצלחה
-	} catch (SQLException e) {
-		System.out.println("❌ Failed to add product: " + e.getMessage());
-		return false; // ❌ כשלון
+			stmt.executeUpdate();
+			return true; // success
+		} catch (SQLException e) {
+			System.out.println("Failed to add product: " + e.getMessage());
+			return false; // failure
+		}
 	}
-}
 
-	// שליפת מספר המוצרים של המוכר מה-DB
+	/**
+	 * Retrieves the total number of products owned by the seller.
+	 *
+	 * @param conn active SQL connection
+	 * @return the number of products
+	 */
 	public int getProductCount(Connection conn) {
 		String sql = "SELECT COUNT(*) FROM Products WHERE SellerId = ?";
 		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -94,6 +101,9 @@ public boolean addProduct(Product product, Connection conn) {
 		return 0;
 	}
 
+	/**
+	 * Returns a string representation of the seller for display/logging.
+	 */
 	@Override
 	public String toString() {
 		return "Seller{" +
@@ -101,5 +111,4 @@ public boolean addProduct(Product product, Connection conn) {
 				", username='" + getUsername() + '\'' +
 				'}';
 	}
-
 }
