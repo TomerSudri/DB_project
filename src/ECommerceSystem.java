@@ -178,197 +178,6 @@ public class ECommerceSystem {
 		return productList.toArray(new Product[0]);
 	}
 
-	// The rest of the code remains unchanged, continuing from handleAddBuyer, handleAddSeller, etc.
-
-//	public Buyer handleAddBuyer(Connection conn, Scanner scanner) {
-//		System.out.print("Enter buyer username: ");
-//		String username = scanner.nextLine();
-//		if (findBuyerByUsername(username, conn) != null) {
-//			System.out.println("Username already exists.");
-//			return null;
-//		}
-//		System.out.print("Enter password: ");
-//		String password = scanner.nextLine();
-//		System.out.print("Enter address: ");
-//		String address = scanner.nextLine();
-//
-//		Buyer buyer = new Buyer(username, password, -1, address);
-//		if (addBuyer(buyer, conn)) {
-//			System.out.println("Buyer added successfully.");
-//		} else {
-//			System.out.println("Failed to add buyer.");
-//		}
-//		return buyer;
-//	}
-//
-//	public Seller handleAddSeller(Connection conn, Scanner scanner) {
-//		System.out.print("Enter seller username: ");
-//		String username = scanner.nextLine();
-//		if (findSellerByUsername(username, conn) != null) {
-//			System.out.println("Username already exists.");
-//			return null;
-//		}
-//		System.out.print("Enter password: ");
-//		String password = scanner.nextLine();
-//
-//		Seller seller = new Seller(username, password, -1);
-//		if (addSeller(seller, conn)) {
-//			System.out.println("Seller added successfully.");
-//		} else {
-//			System.out.println("Failed to add seller.");
-//		}
-//		return seller;
-//	}
-//
-//public void handleAddProductToSeller(Connection conn, Scanner scanner) {
-//	System.out.print("Enter seller username: ");
-//	String username = scanner.nextLine();
-//	Seller seller = findSellerByUsername(username, conn);
-//	if (seller == null) {
-//		System.out.println("Seller not found.");
-//		return;
-//	}
-//
-//	System.out.print("Enter product name: ");
-//	String name = scanner.nextLine();
-//	double price = readDoubleInput(scanner, "Enter product price: ");
-//	Category category = readCategoryInput(scanner, "Enter category (BOOKS, CLOTHING, ELECTRONICS, TOYS): ");
-//	boolean specialPackaging = readBooleanInput(scanner, "Does the product require special packaging? (yes/no): ");
-//	double packagingCost = specialPackaging ? readDoubleInput(scanner, "Enter packaging cost: ") : 0;
-//
-//	Product product = new Product(name, price, category.toString(), specialPackaging, packagingCost);
-//
-//	boolean success = seller.addProduct(product, conn); // שימוש בפונקציה שמחזירה true/false
-//
-//	if (success) {
-//		System.out.println("Product added successfully.");
-//	} else {
-//		System.out.println("Failed to add product.");
-//	}
-//}
-//
-//
-//	public void handleShowProductsByCategory(Connection conn, Scanner scanner) {
-//		Category category = readCategoryInput(scanner, "Enter category to search (BOOKS, CLOTHING, ELECTRONICS, TOYS): ");
-//		Product[] products = getProductsByCategory(conn, category);
-//
-//		if (products.length == 0) {
-//			System.out.println("No products found in this category.");
-//		} else {
-//			System.out.println("Products in category " + category.getDisplayName() + ":");
-//			for (Product p : products) {
-//				System.out.printf("- %s | Price: %.2f | Special Packaging: %s | Packaging Cost: %.2f\n",
-//						p.getName(), p.getPrice(), p.hasSpecialPackaging() ? "Yes" : "No", p.getPackagingCost());
-//			}
-//		}
-//	}
-//
-//	public Category readCategoryInput(Scanner scanner, String prompt) {
-//		while (true) {
-//			System.out.print(prompt);
-//			try {
-//				return Category.valueOf(scanner.nextLine().trim().toUpperCase());
-//			} catch (IllegalArgumentException e) {
-//				System.out.println("Invalid category. Try again.");
-//			}
-//		}
-//	}
-//
-//	private double readDoubleInput(Scanner scanner, String prompt) {
-//		while (true) {
-//			System.out.print(prompt);
-//			try {
-//				return Double.parseDouble(scanner.nextLine());
-//			} catch (NumberFormatException e) {
-//				System.out.println("Invalid number. Try again.");
-//			}
-//		}
-//	}
-//
-//	private boolean readBooleanInput(Scanner scanner, String prompt) {
-//		System.out.print(prompt);
-//		String input = scanner.nextLine().trim().toLowerCase();
-//		return input.equals("yes") || input.equals("y");
-//	}
-//
-//	// ✅ פונקציות אדמין חדשות:
-//
-//	public void handleDeleteSeller(Connection conn, Scanner scanner) {
-//		System.out.print("Enter seller username to delete: ");
-//		String username = scanner.nextLine();
-//		Seller seller = findSellerByUsername(username, conn);
-//		if (seller == null) {
-//			System.out.println("Seller not found.");
-//			return;
-//		}
-//		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Users WHERE userId = ?")) {
-//			stmt.setInt(1, seller.getUserId());
-//			stmt.executeUpdate();
-//			System.out.println("Seller deleted.");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("Failed to delete seller.");
-//		}
-//	}
-//
-//	public void handleDeleteBuyer(Connection conn, Scanner scanner) {
-//		System.out.print("Enter buyer username to delete: ");
-//		String username = scanner.nextLine();
-//		Buyer buyer = findBuyerByUsername(username, conn);
-//		if (buyer == null) {
-//			System.out.println("Buyer not found.");
-//			return;
-//		}
-//		try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM Users WHERE userId = ?")) {
-//			stmt.setInt(1, buyer.getUserId());
-//			stmt.executeUpdate();
-//			System.out.println("Buyer deleted.");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("Failed to delete buyer.");
-//		}
-//	}
-//
-//
-//public void handleShowAllProducts(Connection conn) {
-//	String sql = "SELECT * FROM Products";
-//	try (PreparedStatement stmt = conn.prepareStatement(sql);
-//		 ResultSet rs = stmt.executeQuery()) {
-//
-//		System.out.println("All Products:");
-//		while (rs.next()) {
-//			int productId = rs.getInt("productId");
-//			String name = rs.getString("name");
-//			double price = rs.getDouble("price");
-//			String category = rs.getString("category");
-//			boolean specialPackaging = rs.getBoolean("specialPackaging");
-//
-//			System.out.printf("%d. %s | Price: %.2f₪ | Category: %s | Special Packaging: %s\n",
-//					productId,
-//					name,
-//					price,
-//					category,
-//					specialPackaging ? "Yes" : "No");
-//		}
-//
-//	} catch (SQLException e) {
-//		e.printStackTrace();
-//	}
-//}
-//
-//	public void handleShowAllCategories(Connection conn) {
-//		String sql = "SELECT category FROM Categories";
-//		try (PreparedStatement stmt = conn.prepareStatement(sql);
-//			 ResultSet rs = stmt.executeQuery()) {
-//			System.out.println("Categories:");
-//			while (rs.next()) {
-//				System.out.println("- " + rs.getString("category"));
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	// Handles adding a new buyer to the system through user input and database insertion
 	public Buyer handleAddBuyer(Connection conn, Scanner scanner) {
 		System.out.print("Enter buyer username: ");
@@ -781,7 +590,7 @@ public class ECommerceSystem {
 		Product product = new Product(name, price, category.toString(), specialPackaging, packagingCost);
 		try {
 			boolean added = seller.addProduct(product, conn);
-			if (added) System.out.println("✅ Product added successfully.");
+			if (added) System.out.println("Product added successfully.");
 			else System.out.println("Failed to add product.");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -853,7 +662,7 @@ public class ECommerceSystem {
 				System.out.println("Buyer login successful.");
 				return new Buyer(username, password, userId, address);
 			} else {
-				System.out.println("🔄 Buyer not found, registering new one...");
+				System.out.println("Buyer not found, registering new one...");
 				return null;
 			}
 		} catch (SQLException e) {

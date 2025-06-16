@@ -45,9 +45,9 @@ public class Buyer extends User {
 	public void displayCart(Connection conn) {
 		List<Product> products = getCartProducts(conn);
 		if (products.isEmpty()) {
-			System.out.println("🛒 Your cart is empty.");
+			System.out.println("Your cart is empty.");
 		} else {
-			System.out.println("🛒 Your cart:");
+			System.out.println("Your cart:");
 			for (Product p : products) {
 				System.out.println("- " + p);
 			}
@@ -87,7 +87,7 @@ public class Buyer extends User {
 		for (Product p : products) {
 			total += p.getPrice() + (p.hasSpecialPackaging() ? p.getPackagingCost() : 0);
 		}
-		System.out.printf("💰 Cart total: %.2f₪\n", total);
+		System.out.printf("Cart total: %.2f₪\n", total);
 		return total;
 	}
 
