@@ -98,7 +98,7 @@ public class Buyer extends User {
 	public void completePurchase(Connection conn) {
 		List<Product> products = getCartProducts(conn);
 		if (products.isEmpty()) {
-			System.out.println("🛒 Your cart is empty.");
+			System.out.println("Your cart is empty.");
 			return;
 		}
 
